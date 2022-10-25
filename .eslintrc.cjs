@@ -9,7 +9,7 @@ module.exports = {
         // This option breaks linting only when running on GitHub Actions (?!)
         allowAutomaticSingleRunInference: true,
         errorOnTypeScriptSyntacticAndSemanticIssues: true,
-        debugLevel: ['typescript-eslint', 'eslint', 'typescript' ],
+        debugLevel: ['typescript-eslint', 'typescript' ],
       },
       extends: [
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
