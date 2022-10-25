@@ -12,6 +12,8 @@ jobs:
 
       - run: yarn install --immutable
 
+      - run: rm node_modules/@mui/joy/*/package.json
+
       - run: yarn run check
         env:
           DEBUG: "typescript-eslint:*"
