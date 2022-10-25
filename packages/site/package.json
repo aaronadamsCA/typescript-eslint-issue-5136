@@ -7,7 +7,6 @@
     "@emotion/styled": "11.10.4",
     "@mui/joy": "5.0.0-alpha.50",
     "@mui/system": "5.10.10",
-    "gatsby": "4.24.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   }
