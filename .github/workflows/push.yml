@@ -13,5 +13,3 @@ jobs:
       - run: yarn install --immutable
 
       - run: yarn run check
-        env:
-          DEBUG: "typescript-eslint:*"
