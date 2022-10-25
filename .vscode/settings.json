@@ -1,0 +1,16 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "eslint.onIgnoredFiles": "warn",
+  "eslint.options": {
+    // Comment out this line to run (slower) type checking in the IDE
+    "overrideConfigFile": "./.eslintrc.base.cjs"
+  },
+  "npm.packageManager": "yarn",
+  "terminal.integrated.defaultProfile.linux": "zsh",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "typescript.tsdk": "./node_modules/typescript/lib"
+}

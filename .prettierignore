@@ -1,0 +1,5 @@
+# Ignore external modules
+node_modules/
+
+# Ignore Yarn scripts and caches
+/.yarn/
