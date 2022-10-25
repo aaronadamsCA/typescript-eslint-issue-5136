@@ -8,6 +8,7 @@ module.exports = {
         project: ["./tsconfig.json"],
         // This option breaks linting only when running on GitHub Actions (?!)
         allowAutomaticSingleRunInference: true,
+        errorOnTypeScriptSyntacticAndSemanticIssues: true,
       },
       extends: [
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
