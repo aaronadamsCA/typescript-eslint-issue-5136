@@ -1,16 +1,63 @@
-diff --git a/node_modules/@typescript-eslint/typescript-estree/dist/create-program/useProvidedPrograms.js b/node_modules/@typescript-eslint/typescript-estree/dist/create-program/useProvidedPrograms.js
-index e43c33c..29c9004 100644
---- a/node_modules/@typescript-eslint/typescript-estree/dist/create-program/useProvidedPrograms.js
-+++ b/node_modules/@typescript-eslint/typescript-estree/dist/create-program/useProvidedPrograms.js
-@@ -65,7 +65,10 @@ function createProgramFromConfigFile(configFile, projectDirectory) {
-     if (ts.sys === undefined) {
-         throw new Error('`createProgramFromConfigFile` is only supported in a Node-like environment.');
+diff --git a/node_modules/@typescript-eslint/typescript-estree/dist/semantic-or-syntactic-errors.js b/node_modules/@typescript-eslint/typescript-estree/dist/semantic-or-syntactic-errors.js
+index 13b0fc0..19c265c 100644
+--- a/node_modules/@typescript-eslint/typescript-estree/dist/semantic-or-syntactic-errors.js
++++ b/node_modules/@typescript-eslint/typescript-estree/dist/semantic-or-syntactic-errors.js
+@@ -2,6 +2,9 @@
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.getFirstSemanticOrSyntacticError = void 0;
+ const typescript_1 = require("typescript");
++
++Error.stackTraceLimit = Infinity;
++
+ /**
+  * By default, diagnostics from the TypeScript compiler contain all errors - regardless of whether
+  * they are related to generic ECMAScript standards, or TypeScript-specific constructs.
+@@ -11,15 +14,31 @@ const typescript_1 = require("typescript");
+  */
+ function getFirstSemanticOrSyntacticError(program, ast) {
+     try {
+-        const supportedSyntacticDiagnostics = whitelistSupportedDiagnostics(program.getSyntacticDiagnostics(ast));
++        const supportedSyntacticDiagnostics = program.getSyntacticDiagnostics(ast);
+         if (supportedSyntacticDiagnostics.length) {
+             return convertDiagnosticToSemanticOrSyntacticError(supportedSyntacticDiagnostics[0]);
+         }
+-        const supportedSemanticDiagnostics = whitelistSupportedDiagnostics(program.getSemanticDiagnostics(ast));
++    }
++    catch (e) {
++        /**
++         * TypeScript compiler has certain Debug.fail() statements in, which will cause the diagnostics
++         * retrieval above to throw.
++         *
++         * E.g. from ast-alignment-tests
++         * "Debug Failure. Shouldn't ever directly check a JsxOpeningElement"
++         *
++         * For our current use-cases this is undesired behavior, so we just suppress it
++         * and log a a warning.
++         */
++        /* istanbul ignore next */
++        console.error(`DIAGNOSTIC From TSC:`, e); // eslint-disable-line no-console
++    }
++
++    try {
++        const supportedSemanticDiagnostics = program.getSemanticDiagnostics(ast);
+         if (supportedSemanticDiagnostics.length) {
+             return convertDiagnosticToSemanticOrSyntacticError(supportedSemanticDiagnostics[0]);
+         }
+-        return undefined;
      }
--    const parsed = ts.getParsedCommandLineOfConfigFile(configFile, shared_1.CORE_COMPILER_OPTIONS, {
-+    const parsed = ts.getParsedCommandLineOfConfigFile(configFile, {
-+        ...shared_1.CORE_COMPILER_OPTIONS,
-+        extendedDiagnostics: true,
-+    }, {
-         onUnRecoverableConfigFileDiagnostic: diag => {
-             throw new Error(formatDiagnostics([diag])); // ensures that `parsed` is defined.
-         },
+     catch (e) {
+         /**
+@@ -33,10 +52,10 @@ function getFirstSemanticOrSyntacticError(program, ast) {
+          * and log a a warning.
+          */
+         /* istanbul ignore next */
+-        console.warn(`Warning From TSC: "${e.message}`); // eslint-disable-line no-console
+-        /* istanbul ignore next */
+-        return undefined;
++        console.error(`DIAGNOSTIC From TSC:`, e); // eslint-disable-line no-console
+     }
++
++    return undefined;
+ }
+ exports.getFirstSemanticOrSyntacticError = getFirstSemanticOrSyntacticError;
+ function whitelistSupportedDiagnostics(diagnostics) {
