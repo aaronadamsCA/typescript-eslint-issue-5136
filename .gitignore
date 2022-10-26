@@ -1,5 +1,5 @@
 # Ignore external modules
-node_modules/
+# node_modules/
 
 # Ignore Yarn caches
 .pnp.*

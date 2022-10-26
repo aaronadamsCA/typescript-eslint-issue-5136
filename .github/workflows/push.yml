@@ -10,6 +10,6 @@ jobs:
           cache: yarn
           node-version-file: .nvmrc
 
-      - run: yarn install --immutable && npx patch-package
+      # - run: yarn install --immutable && npx patch-package
 
       - run: yarn run check
