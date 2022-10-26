@@ -5,7 +5,7 @@ module.exports = {
       files: ["*.ts", "*.tsx"],
       parserOptions: {
         tsconfigRootDir: __dirname,
-        project: ["./tsconfig.json"],
+        projects: ["./tsconfig.json"],
         // This option breaks linting only when running on GitHub Actions (?!)
         allowAutomaticSingleRunInference: true,
       },
