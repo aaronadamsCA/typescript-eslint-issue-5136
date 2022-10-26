@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ["eslint:recommended", "plugin:import/recommended", "prettier"],
+  extends: ["eslint:recommended", "prettier"],
   parser: "@babel/eslint-parser",
   parserOptions: {
     sourceType: "module",
